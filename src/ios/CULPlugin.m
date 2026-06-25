@@ -12,6 +12,12 @@
 #import "CDVInvokedUrlCommand+CULPlugin.h"
 #import "CULConfigJsonParser.h"
 
+#if __has_include(<Cordova/CDVPluginNotifications.h>)
+#import <Cordova/CDVPluginNotifications.h>
+#else
+static NSString * const CDVPluginContinueUserActivityNotification = @"CDVPluginContinueUserActivityNotification";
+#endif
+
 @interface CULPlugin() {
     NSArray *_supportedHosts;
     CDVPluginResult *_storedEvent;
@@ -26,6 +32,10 @@
 
 - (void)pluginInitialize {
     [self localInit];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(continueUserActivity:)
+                                                 name:CDVPluginContinueUserActivityNotification
+                                               object:nil];
     // Can be used for testing.
     // Just uncomment, close the app and reopen it. That will simulate application launch from the link.
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onResume:) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -48,6 +58,15 @@
     if (host) {
         [self storeEventWithHost:host originalURL:url];
     }
+}
+
+- (void)continueUserActivity:(NSNotification *)notification {
+    id userActivity = notification.object;
+    if (![userActivity isKindOfClass:[NSUserActivity class]]) {
+        return;
+    }
+
+    [self handleUserActivity:userActivity];
 }
 
 - (BOOL)handleUserActivity:(NSUserActivity *)userActivity {

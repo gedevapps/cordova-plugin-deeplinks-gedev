@@ -146,7 +146,7 @@ function domainsListEntryForHost(host) {
  * @return {String} absolute path to entitlements file
  */
 function pathToEntitlementsFile(buildType) {
-  return path.join(getProjectRoot(), 'platforms', 'ios', getProjectName(), 'Entitlements-' + buildType + '.plist');
+  return path.join(getProjectRoot(), 'platforms', 'ios', getIosProjectFolderName(), 'Entitlements-' + buildType + '.plist');
 }
 
 /**
@@ -170,6 +170,31 @@ function getProjectName() {
   }
 
   return projectName;
+}
+
+function getIosProjectFolderName() {
+  var iosProjectRoot = path.join(getProjectRoot(), 'platforms', 'ios');
+  var configName = getProjectName();
+
+  try {
+    var projectFiles = fs.readdirSync(iosProjectRoot).filter(function(fileName) {
+      return path.extname(fileName) === '.xcodeproj';
+    });
+
+    if (projectFiles.length > 0) {
+      return path.basename(projectFiles[0], '.xcodeproj');
+    }
+  } catch (err) {}
+
+  if (fs.existsSync(path.join(iosProjectRoot, 'App'))) {
+    return 'App';
+  }
+
+  if (fs.existsSync(path.join(iosProjectRoot, configName))) {
+    return configName;
+  }
+
+  return configName;
 }
 
 // endregion

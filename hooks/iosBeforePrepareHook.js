@@ -24,17 +24,30 @@ function run(ctx) {
   var newProjectName = configXmlHelper.getProjectName();
 
   var oldProjectName = getOldProjectName(iosProjectFilePath);
+  if (!oldProjectName) {
+    return;
+  }
+
+  // cordova-ios 8 uses a stable native project folder named "App" even when
+  // the Cordova display name is different. There is nothing to rename.
+  if (oldProjectName === 'App') {
+    return;
+  }
 
   // if name has not changed - do nothing
   if (oldProjectName.length && oldProjectName === newProjectName) {
     return;
   }
 
-  console.log('Project name has changed. Renaming .entitlements file.');
-
   // if it does - rename it
-  var oldEntitlementsFilePath = path.join(iosProjectFilePath, oldProjectName, 'Resources', oldProjectName + '.entitlements');
-  var newEntitlementsFilePath = path.join(iosProjectFilePath, oldProjectName, 'Resources', newProjectName + '.entitlements');
+  var oldEntitlementsFilePath = getEntitlementsFilePath(iosProjectFilePath, oldProjectName, oldProjectName);
+  var newEntitlementsFilePath = getEntitlementsFilePath(iosProjectFilePath, oldProjectName, newProjectName);
+
+  if (!oldEntitlementsFilePath || !newEntitlementsFilePath || !fs.existsSync(oldEntitlementsFilePath)) {
+    return;
+  }
+
+  console.log('Project name has changed. Renaming .entitlements file.');
 
   try {
     fs.renameSync(oldEntitlementsFilePath, newEntitlementsFilePath);
@@ -69,6 +82,23 @@ function getOldProjectName(projectDir) {
   });
 
   return projectFile;
+}
+
+function getEntitlementsFilePath(projectDir, oldProjectName, fileProjectName) {
+  var candidates = [
+    path.join(projectDir, oldProjectName, 'Resources', fileProjectName + '.entitlements'),
+    path.join(projectDir, oldProjectName, fileProjectName + '.entitlements'),
+    path.join(projectDir, oldProjectName, 'Resources', 'Entitlements-Debug.plist'),
+    path.join(projectDir, oldProjectName, 'Entitlements-Debug.plist')
+  ];
+
+  for (var i = 0; i < candidates.length; i++) {
+    if (fs.existsSync(candidates[i])) {
+      return candidates[i];
+    }
+  }
+
+  return candidates[0];
 }
 
 // endregion
