@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.3](https://github.com/gedevapps/cordova-plugin-deeplinks-gedev/compare/v1.2.2...v1.2.3) (2026-07-24)
+
+
+### Bug Fixes
+
+* **hooks:** avoid modifying installed plugin files ([92240ec](https://github.com/gedevapps/cordova-plugin-deeplinks-gedev/commit/92240ec11e369d516ed252150c337a1573ab5603))
+
 ## [1.2.2](https://github.com/gedevapps/cordova-plugin-deeplinks-gedev/compare/v1.2.1...v1.2.2) (2026-07-24)
 
 
