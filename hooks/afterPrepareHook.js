@@ -11,6 +11,7 @@ var androidWebHook = require('./lib/android/webSiteHook.js');
 var iosProjectEntitlements = require('./lib/ios/projectEntitlements.js');
 var iosAppSiteAssociationFile = require('./lib/ios/appleAppSiteAssociationFile.js');
 var iosProjectPreferences = require('./lib/ios/xcodePreferences.js');
+var iosSceneDelegate = require('./lib/ios/sceneDelegate.js');
 var ANDROID = 'android';
 var IOS = 'ios';
 
@@ -75,6 +76,10 @@ function activateUniversalLinksInAndroid(cordovaContext, pluginPreferences) {
  * @param {Object} pluginPreferences - plugin preferences from the config.xml file. Basically, content from <universal-links> tag.
  */
 function activateUniversalLinksInIos(cordovaContext, pluginPreferences) {
+  // Forward Universal Links delivered through UIScene connection options on
+  // cold start. cordova-ios 8 only forwards links received after launch.
+  iosSceneDelegate.enableColdStartUniversalLinks(cordovaContext);
+
   // modify xcode project preferences
   iosProjectPreferences.enableAssociativeDomainsCapability(cordovaContext);
 
