@@ -25,7 +25,7 @@
 
 <!-- Hooks -->
   <hook src="hooks/afterPrepareHook.js" type="after_prepare"/>
-  <hook src="hooks/beforePluginInstallHook.js" type="before_plugin_install" />
+  <hook src="hooks/installDependencies.js" type="before_plugin_install"/>
 
   <platform name="ios">
     <hook src="hooks/iosBeforePrepareHook.js" type="before_prepare" />
