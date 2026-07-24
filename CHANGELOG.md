@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.1](https://github.com/gedevapps/cordova-plugin-deeplinks-gedev/compare/74c8189ff06599d390f68794fc857853e537c3d5...v1.2.1) (2026-07-24)
+
+
+### Bug Fixes
+
+* **ios:** handle Universal Links on cold start ([111c0a9](https://github.com/gedevapps/cordova-plugin-deeplinks-gedev/commit/111c0a9bf605f5cebcd69bda5854618854ddde76))
+
+## [1.2.0](https://github.com/gedevapps/cordova-plugin-deeplinks-gedev/commit/74c8189ff06599d390f68794fc857853e537c3d5) (2026-06-25)
+
+
+### Bug Fixes
+
+* **ios:** support deeplinks on cordova-ios 8 ([74c8189](https://github.com/gedevapps/cordova-plugin-deeplinks-gedev/commit/74c8189ff06599d390f68794fc857853e537c3d5))
+
 ### [1.1.1](https://github.com/e-imaxina/cordova-plugin-deeplinks/compare/v1.1.0...v1.1.1) (2019-08-13)
 
 
