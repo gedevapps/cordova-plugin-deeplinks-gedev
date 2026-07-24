@@ -62,15 +62,13 @@ function activateAssociativeDomains(xcodeProject) {
     // not required anymore
     // buildSettings['CODE_SIGN_ENTITLEMENTS'] = '"' + entitlementsFilePath + '"';
 
-    // if deployment target is less then the required one - increase it
+    // If an explicit deployment target is lower than the required one,
+    // increase it. When it is not set, preserve Cordova's platform default.
     if (buildSettings['IPHONEOS_DEPLOYMENT_TARGET']) {
       if (compare(buildSettings['IPHONEOS_DEPLOYMENT_TARGET'], IOS_DEPLOYMENT_TARGET) == -1) {
         buildSettings['IPHONEOS_DEPLOYMENT_TARGET'] = IOS_DEPLOYMENT_TARGET;
         deploymentTargetIsUpdated = true;
       }
-    } else {
-      buildSettings['IPHONEOS_DEPLOYMENT_TARGET'] = IOS_DEPLOYMENT_TARGET;
-      deploymentTargetIsUpdated = true;
     }
   }
 
@@ -173,7 +171,9 @@ function loadProjectFile() {
               fs.writeFileSync(pbxPath, xcodeproj.writeSync());
                   if (Object.keys(frameworks).length === 0){
                       // If there is no framework references remain in the project, just remove this file
-                      require('shelljs').rm('-rf', frameworks_file);
+                      if (fs.existsSync(frameworks_file)) {
+                          fs.unlinkSync(frameworks_file);
+                      }
                       return;
                   }
                   fs.writeFileSync(frameworks_file, JSON.stringify(this.frameworks, null, 4));
