@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.2](https://github.com/gedevapps/cordova-plugin-deeplinks-gedev/compare/v1.2.1...v1.2.2) (2026-07-24)
+
+
+### Bug Fixes
+
+* **ios:** support clean Cordova iOS 8 installs ([2f1fcef](https://github.com/gedevapps/cordova-plugin-deeplinks-gedev/commit/2f1fcefbfea5cad82537c5f83a8ceea9b3d021bc))
+
 ## [1.2.1](https://github.com/gedevapps/cordova-plugin-deeplinks-gedev/compare/74c8189ff06599d390f68794fc857853e537c3d5...v1.2.1) (2026-07-24)
 
 
